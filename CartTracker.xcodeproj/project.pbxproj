@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		BA0673242AC230540075DC4A /* SwiftSoup in Frameworks */ = {isa = PBXBuildFile; productRef = BA0673232AC230540075DC4A /* SwiftSoup */; };
 		BA0673262AC23C5F0075DC4A /* Ticker.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA0673252AC23C5F0075DC4A /* Ticker.swift */; };
+		BA2D34D12AC379A900A5F6F7 /* AboutWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA2D34D02AC379A900A5F6F7 /* AboutWindow.swift */; };
 		BACBDFB32AC2160C009506B5 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = BACBDFB22AC2160C009506B5 /* Assets.xcassets */; };
 		BACBDFC62AC2160C009506B5 /* CartTrackerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BACBDFC52AC2160C009506B5 /* CartTrackerTests.swift */; };
 		BACBDFD02AC2160C009506B5 /* CartTrackerUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BACBDFCF2AC2160C009506B5 /* CartTrackerUITests.swift */; };
@@ -36,6 +37,7 @@
 
 /* Begin PBXFileReference section */
 		BA0673252AC23C5F0075DC4A /* Ticker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Ticker.swift; sourceTree = "<group>"; };
+		BA2D34D02AC379A900A5F6F7 /* AboutWindow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AboutWindow.swift; sourceTree = "<group>"; };
 		BACBDFAB2AC2160B009506B5 /* CartTracker.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CartTracker.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		BACBDFB22AC2160C009506B5 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		BACBDFBC2AC2160C009506B5 /* CartTracker.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = CartTracker.entitlements; sourceTree = "<group>"; };
@@ -104,6 +106,7 @@
 				BA0673252AC23C5F0075DC4A /* Ticker.swift */,
 				BAD56DC02AC2888C00D82C49 /* main.swift */,
 				BAD56DC22AC288C000D82C49 /* AppDelegate.swift */,
+				BA2D34D02AC379A900A5F6F7 /* AboutWindow.swift */,
 			);
 			path = CartTracker;
 			sourceTree = "<group>";
@@ -263,6 +266,7 @@
 				BA0673262AC23C5F0075DC4A /* Ticker.swift in Sources */,
 				BAD56DC12AC2888C00D82C49 /* main.swift in Sources */,
 				BAD56DC32AC288C000D82C49 /* AppDelegate.swift in Sources */,
+				BA2D34D12AC379A900A5F6F7 /* AboutWindow.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

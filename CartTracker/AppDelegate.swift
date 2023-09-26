@@ -17,6 +17,8 @@ class AppDelegate : NSObject, NSApplicationDelegate {
     var menu: NSMenu!
     var statusMenuEntry: NSMenuItem!
 
+    var aboutWindow: AboutWindow!
+
     static var shared: AppDelegate!
 
     override init() {
@@ -24,6 +26,7 @@ class AppDelegate : NSObject, NSApplicationDelegate {
     }
 
     @objc func applicationDidFinishLaunching(_ notification: Notification) {
+        self.aboutWindow = AboutWindow()
         self.statusBar = NSStatusBar.system
         self.statusItem = statusBar.statusItem(withLength: NSStatusItem.variableLength)
         self.statusBarButton = self.statusItem.button
@@ -39,6 +42,11 @@ class AppDelegate : NSObject, NSApplicationDelegate {
         self.statusMenuEntry.title = "Fetching..."
         self.statusMenuEntry.isEnabled = false
 
+        let aboutMenuItem = NSMenuItem()
+        aboutMenuItem.title = "About CartTracker"
+        aboutMenuItem.target = self
+        aboutMenuItem.action = #selector(showAboutWindow)
+
         let quitMenuItem = NSMenuItem()
         quitMenuItem.title = "Quit"
         quitMenuItem.keyEquivalent = "q"
@@ -47,6 +55,8 @@ class AppDelegate : NSObject, NSApplicationDelegate {
 
         self.menu = NSMenu()
         self.menu.addItem(self.statusMenuEntry)
+        self.menu.addItem(NSMenuItem.separator())
+        self.menu.addItem(aboutMenuItem)
         self.menu.addItem(NSMenuItem.separator())
         self.menu.addItem(quitMenuItem)
 
@@ -74,6 +84,10 @@ class AppDelegate : NSObject, NSApplicationDelegate {
         self.listenForSleepAndWake()
 
         self.ticker.resume()
+    }
+
+    @objc func showAboutWindow() {
+        aboutWindow.show()
     }
 
     @objc func quit() {
