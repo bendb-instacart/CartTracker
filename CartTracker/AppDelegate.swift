@@ -14,13 +14,16 @@ class AppDelegate : NSObject, NSApplicationDelegate {
     var statusBarButton: NSStatusBarButton!
     var ticker: Ticker!
 
+    var menu: NSMenu!
+    var statusMenuEntry: NSMenuItem!
+
     static var shared: AppDelegate!
 
     override init() {
         super.init()
     }
 
-    func applicationDidFinishLaunching(_ notification: Notification) {
+    @objc func applicationDidFinishLaunching(_ notification: Notification) {
         self.statusBar = NSStatusBar.system
         self.statusItem = statusBar.statusItem(withLength: NSStatusItem.variableLength)
         self.statusBarButton = self.statusItem.button
@@ -30,7 +33,11 @@ class AppDelegate : NSObject, NSApplicationDelegate {
             return
         }
 
-        self.statusBarButton.title = "$CART"
+        self.statusBarButton.title = "CART"
+
+        self.statusMenuEntry = NSMenuItem()
+        self.statusMenuEntry.title = "Fetching..."
+        self.statusMenuEntry.isEnabled = false
 
         let quitMenuItem = NSMenuItem()
         quitMenuItem.title = "Quit"
@@ -38,8 +45,10 @@ class AppDelegate : NSObject, NSApplicationDelegate {
         quitMenuItem.target = self
         quitMenuItem.action = #selector(quit)
 
-        let menu = NSMenu()
-        menu.addItem(quitMenuItem)
+        self.menu = NSMenu()
+        self.menu.addItem(self.statusMenuEntry)
+        self.menu.addItem(NSMenuItem.separator())
+        self.menu.addItem(quitMenuItem)
 
         self.statusItem.menu = menu
 
@@ -50,16 +59,61 @@ class AppDelegate : NSObject, NSApplicationDelegate {
                 return
             }
 
-            NSLog("Received update: \(update)")
+            self.storeLastTick(update)
+            self.showTick(update)
+        }
 
-            self.statusBarButton.title = "\(update.symbol) $\(update.price) (\(update.delta))"
+        if let tick = self.fetchLastTick() {
+            self.showTick(tick)
         }
 
         self.ticker = Ticker()
+
+        self.listenForSleepAndWake()
+
+        self.ticker.resume()
     }
 
     @objc func quit() {
         NSApplication.shared.terminate(0)
+    }
+
+    func listenForSleepAndWake() {
+        let center = NSWorkspace.shared.notificationCenter
+
+        center.addObserver(
+            forName: NSWorkspace.willSleepNotification,
+            object: nil,
+            queue: OperationQueue.main) { _ in self.ticker.pause() }
+
+        center.addObserver(
+            forName: NSWorkspace.didWakeNotification,
+            object: nil,
+            queue: OperationQueue.main) { _ in self.ticker.resume() }
+    }
+
+    private func showTick(_ tick: TickerUpdate) {
+        self.statusBarButton.title = "\(tick.symbol) $\(tick.price) (\(tick.delta))"
+        if let notice = tick.quoteMarketNotice {
+            self.statusMenuEntry.title = notice
+            self.statusBarButton.toolTip = notice
+        }
+    }
+
+    private func storeLastTick(_ tick: TickerUpdate) {
+        let encoder = JSONEncoder()
+        if let data = try? encoder.encode(tick) {
+            UserDefaults.standard.set(data, forKey: "last-tick")
+        }
+    }
+
+    private func fetchLastTick() -> TickerUpdate? {
+        guard let data = UserDefaults.standard.data(forKey: "last-tick") else {
+            return nil
+        }
+
+        let decoder = JSONDecoder()
+        return try? decoder.decode(TickerUpdate.self, from: data)
     }
 }
 

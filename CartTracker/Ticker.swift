@@ -6,7 +6,6 @@
 //
 
 import Foundation
-import CoreData
 
 import SwiftSoup
 
@@ -18,11 +17,13 @@ struct TickerUpdate : Codable {
     let symbol: String
     let price: String
     let delta: String
+    let quoteMarketNotice: String?
 
-    init(symbol: String, price: String, delta: String) {
+    init(symbol: String, price: String, delta: String, quoteMarketNotice: String?) {
         self.symbol = symbol
         self.price = price
         self.delta = delta
+        self.quoteMarketNotice = quoteMarketNotice
     }
 }
 
@@ -30,13 +31,28 @@ class Ticker {
     private var timer: Timer!
 
     init() {
-        self.timer = nil // make swift stop whining about capturing self before things are initialized
-        self.timer = Timer.scheduledTimer(withTimeInterval: 5 * 60, repeats: true) { _ in
+    }
+
+    func pause() {
+        NSLog("Ticker pausing.")
+        self.timer.invalidate()
+        self.timer = nil
+    }
+
+    func resume() {
+        NSLog("Ticker resuming!")
+        self.timer = Timer.scheduledTimer(withTimeInterval: 30, repeats: true) { _ in
             Task {
                 await self.fetchInBackground()
             }
         }
-        self.timer!.fire()
+        self.timer.fire()
+    }
+
+    func poke() {
+        Task {
+            await self.fetchInBackground()
+        }
     }
 
     private func fetchInBackground() async {
@@ -78,6 +94,7 @@ class Ticker {
             let symbol = "CART"
             var price: String?
             var delta: String?
+            var quoteMarketNotice: String? = nil
 
             for el in elements {
                 guard let attr = try? el.attr("data-field") else {
@@ -94,7 +111,11 @@ class Ticker {
                 }
             }
 
-            let update = TickerUpdate(symbol: symbol, price: price ?? "??", delta: delta ?? "")
+            if let div = try? doc.getElementById("quote-market-notice") {
+                quoteMarketNotice = try? div.text(trimAndNormaliseWhitespace: true)
+            }
+
+            let update = TickerUpdate(symbol: symbol, price: price ?? "??", delta: delta ?? "", quoteMarketNotice: quoteMarketNotice)
             NotificationCenter.default.post(name: .onTickerUpdated, object: update)
         } catch {
             NSLog("whoopsies")
