@@ -7,15 +7,14 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		BACBDFAF2AC2160B009506B5 /* CartTrackerApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = BACBDFAE2AC2160B009506B5 /* CartTrackerApp.swift */; };
-		BACBDFB12AC2160B009506B5 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BACBDFB02AC2160B009506B5 /* ContentView.swift */; };
+		BA0673242AC230540075DC4A /* SwiftSoup in Frameworks */ = {isa = PBXBuildFile; productRef = BA0673232AC230540075DC4A /* SwiftSoup */; };
+		BA0673262AC23C5F0075DC4A /* Ticker.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA0673252AC23C5F0075DC4A /* Ticker.swift */; };
 		BACBDFB32AC2160C009506B5 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = BACBDFB22AC2160C009506B5 /* Assets.xcassets */; };
-		BACBDFB62AC2160C009506B5 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = BACBDFB52AC2160C009506B5 /* Preview Assets.xcassets */; };
-		BACBDFB82AC2160C009506B5 /* Persistence.swift in Sources */ = {isa = PBXBuildFile; fileRef = BACBDFB72AC2160C009506B5 /* Persistence.swift */; };
-		BACBDFBB2AC2160C009506B5 /* CartTracker.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = BACBDFB92AC2160C009506B5 /* CartTracker.xcdatamodeld */; };
 		BACBDFC62AC2160C009506B5 /* CartTrackerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BACBDFC52AC2160C009506B5 /* CartTrackerTests.swift */; };
 		BACBDFD02AC2160C009506B5 /* CartTrackerUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BACBDFCF2AC2160C009506B5 /* CartTrackerUITests.swift */; };
 		BACBDFD22AC2160C009506B5 /* CartTrackerUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BACBDFD12AC2160C009506B5 /* CartTrackerUITestsLaunchTests.swift */; };
+		BAD56DC12AC2888C00D82C49 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAD56DC02AC2888C00D82C49 /* main.swift */; };
+		BAD56DC32AC288C000D82C49 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAD56DC22AC288C000D82C49 /* AppDelegate.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -36,19 +35,18 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		BA0673252AC23C5F0075DC4A /* Ticker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Ticker.swift; sourceTree = "<group>"; };
 		BACBDFAB2AC2160B009506B5 /* CartTracker.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CartTracker.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		BACBDFAE2AC2160B009506B5 /* CartTrackerApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CartTrackerApp.swift; sourceTree = "<group>"; };
-		BACBDFB02AC2160B009506B5 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		BACBDFB22AC2160C009506B5 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
-		BACBDFB52AC2160C009506B5 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
-		BACBDFB72AC2160C009506B5 /* Persistence.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Persistence.swift; sourceTree = "<group>"; };
-		BACBDFBA2AC2160C009506B5 /* CartTracker.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = CartTracker.xcdatamodel; sourceTree = "<group>"; };
 		BACBDFBC2AC2160C009506B5 /* CartTracker.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = CartTracker.entitlements; sourceTree = "<group>"; };
 		BACBDFC12AC2160C009506B5 /* CartTrackerTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = CartTrackerTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		BACBDFC52AC2160C009506B5 /* CartTrackerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CartTrackerTests.swift; sourceTree = "<group>"; };
 		BACBDFCB2AC2160C009506B5 /* CartTrackerUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = CartTrackerUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		BACBDFCF2AC2160C009506B5 /* CartTrackerUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CartTrackerUITests.swift; sourceTree = "<group>"; };
 		BACBDFD12AC2160C009506B5 /* CartTrackerUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CartTrackerUITestsLaunchTests.swift; sourceTree = "<group>"; };
+		BACBDFE02AC218E4009506B5 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		BAD56DC02AC2888C00D82C49 /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
+		BAD56DC22AC288C000D82C49 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -56,6 +54,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BA0673242AC230540075DC4A /* SwiftSoup in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -99,23 +98,14 @@
 		BACBDFAD2AC2160B009506B5 /* CartTracker */ = {
 			isa = PBXGroup;
 			children = (
-				BACBDFAE2AC2160B009506B5 /* CartTrackerApp.swift */,
-				BACBDFB02AC2160B009506B5 /* ContentView.swift */,
+				BACBDFE02AC218E4009506B5 /* Info.plist */,
 				BACBDFB22AC2160C009506B5 /* Assets.xcassets */,
-				BACBDFB72AC2160C009506B5 /* Persistence.swift */,
 				BACBDFBC2AC2160C009506B5 /* CartTracker.entitlements */,
-				BACBDFB92AC2160C009506B5 /* CartTracker.xcdatamodeld */,
-				BACBDFB42AC2160C009506B5 /* Preview Content */,
+				BA0673252AC23C5F0075DC4A /* Ticker.swift */,
+				BAD56DC02AC2888C00D82C49 /* main.swift */,
+				BAD56DC22AC288C000D82C49 /* AppDelegate.swift */,
 			);
 			path = CartTracker;
-			sourceTree = "<group>";
-		};
-		BACBDFB42AC2160C009506B5 /* Preview Content */ = {
-			isa = PBXGroup;
-			children = (
-				BACBDFB52AC2160C009506B5 /* Preview Assets.xcassets */,
-			);
-			path = "Preview Content";
 			sourceTree = "<group>";
 		};
 		BACBDFC42AC2160C009506B5 /* CartTrackerTests */ = {
@@ -151,6 +141,9 @@
 			dependencies = (
 			);
 			name = CartTracker;
+			packageProductDependencies = (
+				BA0673232AC230540075DC4A /* SwiftSoup */,
+			);
 			productName = CartTracker;
 			productReference = BACBDFAB2AC2160B009506B5 /* CartTracker.app */;
 			productType = "com.apple.product-type.application";
@@ -223,6 +216,9 @@
 				Base,
 			);
 			mainGroup = BACBDFA22AC2160B009506B5;
+			packageReferences = (
+				BA0673222AC230540075DC4A /* XCRemoteSwiftPackageReference "SwiftSoup" */,
+			);
 			productRefGroup = BACBDFAC2AC2160B009506B5 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -239,7 +235,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				BACBDFB62AC2160C009506B5 /* Preview Assets.xcassets in Resources */,
 				BACBDFB32AC2160C009506B5 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -265,10 +260,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				BACBDFB82AC2160C009506B5 /* Persistence.swift in Sources */,
-				BACBDFB12AC2160B009506B5 /* ContentView.swift in Sources */,
-				BACBDFBB2AC2160C009506B5 /* CartTracker.xcdatamodeld in Sources */,
-				BACBDFAF2AC2160B009506B5 /* CartTrackerApp.swift in Sources */,
+				BA0673262AC23C5F0075DC4A /* Ticker.swift in Sources */,
+				BAD56DC12AC2888C00D82C49 /* main.swift in Sources */,
+				BAD56DC32AC288C000D82C49 /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -427,16 +421,17 @@
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_ASSET_PATHS = "\"CartTracker/Preview Content\"";
-				DEVELOPMENT_TEAM = SN36593UAK;
+				DEVELOPMENT_TEAM = 59VC75K95Z;
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = CartTracker/Info.plist;
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
+				MACOSX_DEPLOYMENT_TARGET = 13.0;
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.bendb.CartTracker;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -454,16 +449,17 @@
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_ASSET_PATHS = "\"CartTracker/Preview Content\"";
-				DEVELOPMENT_TEAM = SN36593UAK;
+				DEVELOPMENT_TEAM = 59VC75K95Z;
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = CartTracker/Info.plist;
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
+				MACOSX_DEPLOYMENT_TARGET = 13.0;
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.bendb.CartTracker;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -585,18 +581,24 @@
 		};
 /* End XCConfigurationList section */
 
-/* Begin XCVersionGroup section */
-		BACBDFB92AC2160C009506B5 /* CartTracker.xcdatamodeld */ = {
-			isa = XCVersionGroup;
-			children = (
-				BACBDFBA2AC2160C009506B5 /* CartTracker.xcdatamodel */,
-			);
-			currentVersion = BACBDFBA2AC2160C009506B5 /* CartTracker.xcdatamodel */;
-			path = CartTracker.xcdatamodeld;
-			sourceTree = "<group>";
-			versionGroupType = wrapper.xcdatamodel;
+/* Begin XCRemoteSwiftPackageReference section */
+		BA0673222AC230540075DC4A /* XCRemoteSwiftPackageReference "SwiftSoup" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/scinfu/SwiftSoup.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 2.0.0;
+			};
 		};
-/* End XCVersionGroup section */
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		BA0673232AC230540075DC4A /* SwiftSoup */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = BA0673222AC230540075DC4A /* XCRemoteSwiftPackageReference "SwiftSoup" */;
+			productName = SwiftSoup;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = BACBDFA32AC2160B009506B5 /* Project object */;
 }
