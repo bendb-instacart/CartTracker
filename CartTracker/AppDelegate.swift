@@ -59,6 +59,8 @@ class AppDelegate : NSObject, NSApplicationDelegate {
                 return
             }
 
+            NSLog("Received tick")
+
             self.storeLastTick(update)
             self.showTick(update)
         }
