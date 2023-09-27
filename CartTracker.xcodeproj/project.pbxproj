@@ -10,6 +10,7 @@
 		BA0673242AC230540075DC4A /* SwiftSoup in Frameworks */ = {isa = PBXBuildFile; productRef = BA0673232AC230540075DC4A /* SwiftSoup */; };
 		BA0673262AC23C5F0075DC4A /* Ticker.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA0673252AC23C5F0075DC4A /* Ticker.swift */; };
 		BA2D34D12AC379A900A5F6F7 /* AboutWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA2D34D02AC379A900A5F6F7 /* AboutWindow.swift */; };
+		BA2D34D52AC3E35B00A5F6F7 /* TickerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA2D34D42AC3E35B00A5F6F7 /* TickerTests.swift */; };
 		BACBDFB32AC2160C009506B5 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = BACBDFB22AC2160C009506B5 /* Assets.xcassets */; };
 		BACBDFC62AC2160C009506B5 /* CartTrackerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BACBDFC52AC2160C009506B5 /* CartTrackerTests.swift */; };
 		BACBDFD02AC2160C009506B5 /* CartTrackerUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BACBDFCF2AC2160C009506B5 /* CartTrackerUITests.swift */; };
@@ -38,6 +39,7 @@
 /* Begin PBXFileReference section */
 		BA0673252AC23C5F0075DC4A /* Ticker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Ticker.swift; sourceTree = "<group>"; };
 		BA2D34D02AC379A900A5F6F7 /* AboutWindow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AboutWindow.swift; sourceTree = "<group>"; };
+		BA2D34D42AC3E35B00A5F6F7 /* TickerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TickerTests.swift; sourceTree = "<group>"; };
 		BACBDFAB2AC2160B009506B5 /* CartTracker.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CartTracker.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		BACBDFB22AC2160C009506B5 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		BACBDFBC2AC2160C009506B5 /* CartTracker.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = CartTracker.entitlements; sourceTree = "<group>"; };
@@ -115,6 +117,7 @@
 			isa = PBXGroup;
 			children = (
 				BACBDFC52AC2160C009506B5 /* CartTrackerTests.swift */,
+				BA2D34D42AC3E35B00A5F6F7 /* TickerTests.swift */,
 			);
 			path = CartTrackerTests;
 			sourceTree = "<group>";
@@ -275,6 +278,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				BACBDFC62AC2160C009506B5 /* CartTrackerTests.swift in Sources */,
+				BA2D34D52AC3E35B00A5F6F7 /* TickerTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -422,7 +426,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = CartTracker/CartTracker.entitlements;
-				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "-";
+				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 1;
@@ -452,7 +456,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = CartTracker/CartTracker.entitlements;
-				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "-";
+				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 1;
@@ -481,9 +485,10 @@
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
+				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = SN36593UAK;
+				DEVELOPMENT_TEAM = NB93H2L88E;
 				GENERATE_INFOPLIST_FILE = YES;
 				MACOSX_DEPLOYMENT_TARGET = 13.3;
 				MARKETING_VERSION = 1.0;
@@ -500,9 +505,10 @@
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
+				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = SN36593UAK;
+				DEVELOPMENT_TEAM = NB93H2L88E;
 				GENERATE_INFOPLIST_FILE = YES;
 				MACOSX_DEPLOYMENT_TARGET = 13.3;
 				MARKETING_VERSION = 1.0;
@@ -518,9 +524,10 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = SN36593UAK;
+				DEVELOPMENT_TEAM = NB93H2L88E;
 				GENERATE_INFOPLIST_FILE = YES;
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.bendb.CartTrackerUITests;
@@ -535,9 +542,10 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = SN36593UAK;
+				DEVELOPMENT_TEAM = NB93H2L88E;
 				GENERATE_INFOPLIST_FILE = YES;
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.bendb.CartTrackerUITests;

@@ -11,7 +11,6 @@ import SwiftUI
 
 class AboutWindow {
     private let window: NSWindow
-    static var counter = 1
 
     init() {
         window = NSWindow(

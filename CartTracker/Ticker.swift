@@ -28,28 +28,78 @@ struct TickerUpdate : Codable {
 }
 
 class Ticker {
-    private var timer: Timer!
+    private var timer: Timer?
+    private let calendar: Calendar
+    private let formatter: ISO8601DateFormatter
 
-    init() {
+    private init(calendar: Calendar, formatter: ISO8601DateFormatter) {
+        self.calendar = calendar
+        self.formatter = formatter
     }
+
+    convenience init?() {
+        guard let tz = TimeZone(identifier: "America/New_York") else {
+            return nil
+        }
+
+        var easternStandard = Calendar(identifier: .gregorian)
+        easternStandard.timeZone = tz
+
+        let formatter = ISO8601DateFormatter()
+        formatter.timeZone = tz
+        formatter.formatOptions = [.withFullDate, .withDashSeparatorInDate, .withSpaceBetweenDateAndTime, .withTime, .withColonSeparatorInTime]
+
+        self.init(calendar: easternStandard, formatter: formatter)
+    }
+
+    // MARK: Timer management
 
     func pause() {
         NSLog("Ticker pausing.")
-        self.timer.invalidate()
+        self.timer?.invalidate()
         self.timer = nil
     }
 
     func resume() {
         NSLog("Ticker resuming!")
-        self.timer = Timer.scheduledTimer(withTimeInterval: 30, repeats: true) { _ in
-            Task {
-                await self.fetchInBackground()
-            }
+
+        let now = Date()
+        if calendar.isDateDuringTradingHours(now) {
+            resumeDuringTrading()
+        } else {
+            resumeAfterHours()
         }
-        self.timer.fire()
+
+        // Even if markets are closed, we should still try to fetch at least _something_
+        // to show the user.
+        self.runFetchTask()
     }
 
-    func poke() {
+    private func resumeDuringTrading() {
+        NSLog("Markets are open, let's do this")
+
+        self.timer = Timer.scheduledTimer(withTimeInterval: 30, repeats: true) { _ in
+            self.runFetchTask()
+        }
+    }
+
+    private func resumeAfterHours() {
+        NSLog("Markets are closed, going to sleep until they re-open")
+
+        let now = Date()
+        let wakeTime = calendar.nextMarketOpenAfter(now)
+        let wakeTimeText = formatter.string(from: wakeTime)
+
+        NSLog("Wake time will be: \(wakeTimeText)")
+
+        self.timer = Timer(fire: wakeTime, interval: 0, repeats: false) { _ in
+            self.resume()
+        }
+    }
+
+    // MARK: Fetching and decoding
+
+    private func runFetchTask() {
         Task {
             await self.fetchInBackground()
         }
@@ -59,9 +109,6 @@ class Ticker {
         guard let url = URL(string: "https://finance.yahoo.com/quote/CART/") else {
             fatalError("Failed to parse a constant URL, wtf")
         }
-
-        var request = URLRequest(url: url)
-        request.httpMethod = "GET"
 
         let htmlText: String
         do {
@@ -120,5 +167,38 @@ class Ticker {
         } catch {
             NSLog("whoopsies")
         }
+    }
+}
+
+// MARK: Calendar extensions
+
+extension Calendar {
+    func isDateInMorning(_ date: Date) -> Bool {
+        let hour = self.component(.hour, from: date)
+        return hour < 9
+    }
+
+    func isDateInEvening(_ date: Date) -> Bool {
+        let hour = self.component(.hour, from: date)
+        return hour > 14
+    }
+
+    func isDateDuringTradingHours(_ date: Date) -> Bool {
+        let tooEarly = self.isDateInMorning(date)
+        let tooLate = self.isDateInEvening(date)
+        let isWeekend = self.isDateInWeekend(date)
+        return !tooEarly && !tooLate && !isWeekend
+    }
+
+    func nextMarketOpenAfter(_ date: Date) -> Date {
+        var oneDay = DateComponents()
+        oneDay.day = 1
+
+        var result = self.date(bySettingHour: 9, minute: 0, second: 0, of: date)!
+        while result < date || self.isDateInWeekend(result) {
+            result = self.date(byAdding: oneDay, to: result)!
+        }
+
+        return result
     }
 }
