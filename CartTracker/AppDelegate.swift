@@ -21,9 +21,7 @@ class AppDelegate : NSObject, NSApplicationDelegate {
 
     static var shared: AppDelegate!
 
-    override init() {
-        super.init()
-    }
+    // MARK: NSApplicationDelegate protocol
 
     @objc func applicationDidFinishLaunching(_ notification: Notification) {
         self.aboutWindow = AboutWindow()
@@ -69,8 +67,6 @@ class AppDelegate : NSObject, NSApplicationDelegate {
                 return
             }
 
-            NSLog("Received tick")
-
             self.storeLastTick(update)
             self.showTick(update)
         }
@@ -86,15 +82,7 @@ class AppDelegate : NSObject, NSApplicationDelegate {
         self.ticker.resume()
     }
 
-    @objc func showAboutWindow() {
-        aboutWindow.show()
-    }
-
-    @objc func quit() {
-        NSApplication.shared.terminate(0)
-    }
-
-    func listenForSleepAndWake() {
+    private func listenForSleepAndWake() {
         let center = NSWorkspace.shared.notificationCenter
 
         center.addObserver(
@@ -106,6 +94,16 @@ class AppDelegate : NSObject, NSApplicationDelegate {
             forName: NSWorkspace.didWakeNotification,
             object: nil,
             queue: OperationQueue.main) { _ in self.ticker.resume() }
+    }
+
+    // MARK: Menu handlers
+
+    @objc func showAboutWindow() {
+        aboutWindow.show()
+    }
+
+    @objc func quit() {
+        NSApplication.shared.terminate(0)
     }
 
     private func showTick(_ tick: TickerUpdate) {

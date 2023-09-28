@@ -32,6 +32,8 @@ class Ticker {
     private let calendar: Calendar
     private let formatter: ISO8601DateFormatter
 
+    static let url = URL(string: "https://finance.yahoo.com/quote/CART/")!
+
     private init(calendar: Calendar, formatter: ISO8601DateFormatter) {
         self.calendar = calendar
         self.formatter = formatter
@@ -79,7 +81,13 @@ class Ticker {
         NSLog("Markets are open, let's do this")
 
         self.timer = Timer.scheduledTimer(withTimeInterval: 30, repeats: true) { _ in
-            self.runFetchTask()
+            let now = Date()
+            if self.calendar.isDateDuringTradingHours(now) {
+                self.runFetchTask()
+            } else {
+                self.pause()
+                self.resume() // NOTE: We're relying on resume _still_ running a fetch task for that last after-hours update.
+            }
         }
     }
 
@@ -92,9 +100,12 @@ class Ticker {
 
         NSLog("Wake time will be: \(wakeTimeText)")
 
-        self.timer = Timer(fire: wakeTime, interval: 0, repeats: false) { _ in
+        let t = Timer(fire: wakeTime, interval: 0, repeats: false) { _ in
             self.resume()
         }
+
+        self.timer = t
+        RunLoop.main.add(t, forMode: .default)
     }
 
     // MARK: Fetching and decoding
@@ -106,13 +117,9 @@ class Ticker {
     }
 
     private func fetchInBackground() async {
-        guard let url = URL(string: "https://finance.yahoo.com/quote/CART/") else {
-            fatalError("Failed to parse a constant URL, wtf")
-        }
-
         let htmlText: String
         do {
-            let (data, response) = try await URLSession.shared.data(from: url)
+            let (data, response) = try await URLSession.shared.data(from: Ticker.url)
             guard let httpResponse = response as? HTTPURLResponse else {
                 NSLog("Not an http response???")
                 fatalError("lol wut")
@@ -173,16 +180,20 @@ class Ticker {
 // MARK: Calendar extensions
 
 extension Calendar {
+    /// Returns true if the given timestamp is earlier than 9:00 AM in the current calendar.
     func isDateInMorning(_ date: Date) -> Bool {
         let hour = self.component(.hour, from: date)
         return hour < 9
     }
 
+    /// Returns true if the given timestamp is on or after 4:00 PM in the current calendar.
     func isDateInEvening(_ date: Date) -> Bool {
         let hour = self.component(.hour, from: date)
-        return hour > 14
+        return hour > 15
     }
 
+    /// Returns true if the given timestamp falls between 9:00 AM and 4:00 PM
+    /// on a weekday in the current calendar.
     func isDateDuringTradingHours(_ date: Date) -> Bool {
         let tooEarly = self.isDateInMorning(date)
         let tooLate = self.isDateInEvening(date)
