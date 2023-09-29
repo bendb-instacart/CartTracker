@@ -31,12 +31,14 @@ class Ticker {
     private var timer: Timer?
     private let calendar: Calendar
     private let formatter: ISO8601DateFormatter
+    private let urlSession: URLSession
 
     static let url = URL(string: "https://finance.yahoo.com/quote/CART/")!
 
-    private init(calendar: Calendar, formatter: ISO8601DateFormatter) {
+    private init(calendar: Calendar, formatter: ISO8601DateFormatter, urlSession: URLSession) {
         self.calendar = calendar
         self.formatter = formatter
+        self.urlSession = urlSession
     }
 
     convenience init?() {
@@ -51,7 +53,15 @@ class Ticker {
         formatter.timeZone = tz
         formatter.formatOptions = [.withFullDate, .withDashSeparatorInDate, .withSpaceBetweenDateAndTime, .withTime, .withColonSeparatorInTime]
 
-        self.init(calendar: easternStandard, formatter: formatter)
+        let urlSessionConfig = URLSessionConfiguration.default
+        urlSessionConfig.urlCache = nil
+        urlSessionConfig.urlCredentialStorage = nil
+        urlSessionConfig.requestCachePolicy = .reloadIgnoringLocalAndRemoteCacheData
+        urlSessionConfig.timeoutIntervalForRequest = 10.0
+
+        let urlSession = URLSession(configuration: urlSessionConfig)
+
+        self.init(calendar: easternStandard, formatter: formatter, urlSession: urlSession)
     }
 
     // MARK: Timer management
@@ -80,7 +90,12 @@ class Ticker {
     private func resumeDuringTrading() {
         NSLog("Markets are open, let's do this")
 
-        self.timer = Timer.scheduledTimer(withTimeInterval: 30, repeats: true) { _ in
+        self.timer = Timer.scheduledTimer(withTimeInterval: 30, repeats: true) { [weak self] t in
+            guard let self = self else {
+                t.invalidate()
+                return
+            }
+
             let now = Date()
             if self.calendar.isDateDuringTradingHours(now) {
                 self.runFetchTask()
@@ -100,7 +115,13 @@ class Ticker {
 
         NSLog("Wake time will be: \(wakeTimeText)")
 
-        let t = Timer(fire: wakeTime, interval: 0, repeats: false) { _ in
+        let t = Timer(fire: wakeTime, interval: 0, repeats: false) { [weak self] t in
+            guard let self = self else {
+                t.invalidate() // not really necessary as a non-repeating timer, but better safe than sorry!
+                return
+            }
+
+            self.pause()
             self.resume()
         }
 
@@ -111,38 +132,51 @@ class Ticker {
     // MARK: Fetching and decoding
 
     private func runFetchTask() {
-        Task {
-            await self.fetchInBackground()
-        }
-    }
-
-    private func fetchInBackground() async {
-        let htmlText: String
-        do {
-            let (data, response) = try await URLSession.shared.data(from: Ticker.url)
-            guard let httpResponse = response as? HTTPURLResponse else {
-                NSLog("Not an http response???")
-                fatalError("lol wut")
+        let task = urlSession.dataTask(with: Ticker.url) { [weak self] data, response, error in
+            guard let self = self else {
+                fatalError("this is a global singleton wtf")
             }
 
-            if httpResponse.statusCode != 200 {
-                NSLog("http error: \(httpResponse)")
+            if let error = error {
+                NSLog("Ticker error: \(error)")
+                return
+            }
+
+            guard let response = response as? HTTPURLResponse else {
+                NSLog("Ticker error: expected HTTPURLResponse but got \(response?.className ?? "nil")")
+                return
+            }
+
+            guard (200...299).contains(response.statusCode) else {
+                NSLog("Ticker error: server responded with \(response.statusCode)")
+                return
+            }
+
+            guard let data = data else {
+                NSLog("Ticker error: server responded with nil data")
                 return
             }
 
             guard let text = String(data: data, encoding: .utf8) else {
-                NSLog("data is not utf-8 encoded")
+                NSLog("Ticker error: response text is not utf-8 encoded")
                 return
             }
 
-            htmlText = text
-        } catch {
-            NSLog("well that didn't work")
-            return
+            guard let update = self.parseTickerUpdate(text) else {
+                NSLog("Ticker error: incomprehensible output")
+                return
+            }
+
+            NotificationCenter.default.post(name: .onTickerUpdated, object: update)
         }
 
+        task.resume()
+    }
+
+    private func parseTickerUpdate(_ text: String) -> TickerUpdate? {
+        var update: TickerUpdate? = nil
         do {
-            let doc = try SwiftSoup.parse(htmlText)
+            let doc = try SwiftSoup.parse(text)
             let elements = try doc.select("fin-streamer[data-symbol=CART]").array()
 
             let symbol = "CART"
@@ -169,11 +203,13 @@ class Ticker {
                 quoteMarketNotice = try? div.text(trimAndNormaliseWhitespace: true)
             }
 
-            let update = TickerUpdate(symbol: symbol, price: price ?? "??", delta: delta ?? "", quoteMarketNotice: quoteMarketNotice)
-            NotificationCenter.default.post(name: .onTickerUpdated, object: update)
+            update = TickerUpdate(symbol: symbol, price: price ?? "??", delta: delta ?? "", quoteMarketNotice: quoteMarketNotice)
+        } catch Exception.Error(let type, let message) {
+            NSLog("Ticker error: parsing update failed with type=\(type) message=\(message)")
         } catch {
             NSLog("whoopsies")
         }
+        return update
     }
 }
 
