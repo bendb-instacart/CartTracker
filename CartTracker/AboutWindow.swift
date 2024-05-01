@@ -25,9 +25,13 @@ class AboutWindow {
     }
 
     func show() {
-        window.center()
+        if !window.isVisible {
+            // If we haven't yet shown the window, center it.  If the window is already open,
+            // then it's weird to move it around again, so don't.
+            window.center()
+        }
+        NSApplication.shared.activate(ignoringOtherApps: true)
         window.makeKeyAndOrderFront(nil)
-        window.orderFrontRegardless()
     }
 }
 

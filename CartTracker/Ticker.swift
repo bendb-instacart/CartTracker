@@ -15,11 +15,24 @@ extension Notification.Name {
 
 struct TickerUpdate : Codable {
     let symbol: String
-    let price: String
+    let price: Decimal?
     let delta: String
     let quoteMarketNotice: String?
 
-    init(symbol: String, price: String, delta: String, quoteMarketNotice: String?) {
+    var displayPrice: String {
+        get {
+            guard let price = price else {
+                return "??"
+            }
+
+            let format = Decimal.FormatStyle.Currency(code: "USD")
+            let text = price.formatted(format)
+
+            return text
+        }
+    }
+
+    init(symbol: String, price: Decimal?, delta: String, quoteMarketNotice: String?) {
         self.symbol = symbol
         self.price = price
         self.delta = delta
@@ -58,6 +71,9 @@ class Ticker {
         urlSessionConfig.urlCredentialStorage = nil
         urlSessionConfig.requestCachePolicy = .reloadIgnoringLocalAndRemoteCacheData
         urlSessionConfig.timeoutIntervalForRequest = 10.0
+        urlSessionConfig.httpAdditionalHeaders = [
+            "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36"
+        ]
 
         let urlSession = URLSession(configuration: urlSessionConfig)
 
@@ -203,7 +219,9 @@ class Ticker {
                 quoteMarketNotice = try? div.text(trimAndNormaliseWhitespace: true)
             }
 
-            update = TickerUpdate(symbol: symbol, price: price ?? "??", delta: delta ?? "", quoteMarketNotice: quoteMarketNotice)
+            let decimalPrice = try? Decimal(price ?? "", format: Decimal.FormatStyle.Currency(code: "USD"), lenient: true)
+
+            update = TickerUpdate(symbol: symbol, price: decimalPrice, delta: delta ?? "", quoteMarketNotice: quoteMarketNotice)
         } catch Exception.Error(let type, let message) {
             NSLog("Ticker error: parsing update failed with type=\(type) message=\(message)")
         } catch {

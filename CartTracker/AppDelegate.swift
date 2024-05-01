@@ -88,12 +88,16 @@ class AppDelegate : NSObject, NSApplicationDelegate {
         center.addObserver(
             forName: NSWorkspace.willSleepNotification,
             object: nil,
-            queue: OperationQueue.main) { _ in self.ticker.pause() }
+            queue: OperationQueue.main) { _ in
+                self.ticker.pause()
+            }
 
         center.addObserver(
             forName: NSWorkspace.didWakeNotification,
             object: nil,
-            queue: OperationQueue.main) { _ in self.ticker.resume() }
+            queue: OperationQueue.main) { _ in
+                self.ticker.resume()
+            }
     }
 
     // MARK: Menu handlers
@@ -107,7 +111,7 @@ class AppDelegate : NSObject, NSApplicationDelegate {
     }
 
     private func showTick(_ tick: TickerUpdate) {
-        self.statusBarButton.title = "\(tick.symbol) $\(tick.price) (\(tick.delta))"
+        self.statusBarButton.title = "\(tick.symbol) \(tick.displayPrice) (\(tick.delta))"
         if let notice = tick.quoteMarketNotice {
             self.statusMenuEntry.title = notice
             self.statusBarButton.toolTip = notice
