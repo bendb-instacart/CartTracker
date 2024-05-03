@@ -215,8 +215,8 @@ class Ticker {
                 }
             }
 
-            if let div = try? doc.getElementById("quote-market-notice") {
-                quoteMarketNotice = try? div.text(trimAndNormaliseWhitespace: true)
+            if let marketTimeNotices = try? doc.select("div[slot=marketTimeNotice]") {
+                quoteMarketNotice = try? marketTimeNotices.first()?.text(trimAndNormaliseWhitespace: true)
             }
 
             let decimalPrice = try? Decimal(price ?? "", format: Decimal.FormatStyle.Currency(code: "USD"), lenient: true)
